@@ -14,10 +14,13 @@ router.get("/signup",(req, res)=>{
 
 router.post("/signin", async (req, res) =>{
     const {email, password} = req.body;
-    const User = await user.matchPassword(email, password);
-
-    console.log("USER:", User);
-    res.redirect("/");
+    try{
+        const token = await user.matchPasswordAndGenerateToken(email, password);
+    // console.log("USER:", token);
+        return res.cookie("token", token).redirect("/");
+    }catch(err){
+        res.render("Signin", {error: "Invalid credentials"});
+    }
 })
 
 
@@ -42,4 +45,8 @@ router.post("/signup", async (req, res) => {
 });
 
 
+router.get("/logout", (req,res) =>{
+    res.clearCookie("token").redirect("/");
+})
 module.exports = router;
+

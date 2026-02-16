@@ -1,11 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <%- include('./partials/head') %>
     <title>Home Page</title>
+
+    <style>
+        .blog-img {
+            height: 220px;
+            object-fit: cover;
+        }
+    </style>
 </head>
+
 <body>
-    <%- include ('./partials/nav') %>
+    <%- include('./partials/nav') %>
+
+    <div class="container mt-4">
+        <div class="row">
+
+            <% blogs.forEach(blog => { %>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm h-100">
+
+                        <img 
+                            src="/<%= blog.coverImageURL %>" 
+                            class="card-img-top blog-img"
+                            alt="Blog Cover Image">
+
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title"><%= blog.title %></h5>
+
+                            <a href="/blog/<%= blog._id %>" 
+                               class="btn btn-primary mt-auto">
+                               View
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+            <% }) %>
+
+        </div>
+    </div>
+
     <%- include('./partials/script') %>
 </body>
+
 </html>
